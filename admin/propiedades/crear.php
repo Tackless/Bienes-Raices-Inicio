@@ -1,4 +1,11 @@
 <?php 
+
+    // Base de datos
+    require '../../includes/config/database.php';
+    $db = conectarBD();
+
+
+
     require '../../includes/funciones.php';
     incluirTemplate('header');
 ?>
