@@ -1,5 +1,5 @@
 .iconos-nosotros {
-    @include tablet {
+    @include desktop {
         @include grid(3,2rem);
     } 
 }
