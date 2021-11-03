@@ -8,6 +8,7 @@
     blockquote {
         padding-left: 5rem;
         position: relative;
+        text-align: initial;
 
         &::before {
             content: '';
