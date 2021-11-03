@@ -12,11 +12,19 @@
 
 .navegacion {
 
-    display: none;
+    
+    visibility: hidden; // Animación
+    opacity: 0; // Animación
+    // transition: visibility .3s ease-in-out, opacity 0.5s linear; // Animación al quitar y poner
+    transition:  opacity 0.5s linear; // Animación
+
+    height: 0;
 
     @include tablet {
         display: flex;
         align-items: center;
+        opacity: 1; // Animación
+        visibility: visible; // Animación
     } 
 
     a {
@@ -47,10 +55,7 @@
 
 }
 .mostrar {
-    display: flex;
-    flex-direction: column;
-
-    @include tablet {
-        flex-direction: row;
-    } 
+    visibility: visible; // Animación
+    opacity: 1; // Animación
+    height: auto;
 }
