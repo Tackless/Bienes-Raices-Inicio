@@ -29,8 +29,7 @@
                         <a href="contacto.php">Contacto</a>
                     </nav>    
                 </div>
-
             </div>
-
+            <?php echo $inicio ? "<h1>Venta de Casas y Departamentos de lujo</h1>" : '';?>
         </div>
     </header>
