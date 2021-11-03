@@ -4,6 +4,14 @@
     require '../../includes/config/database.php';
     $db = conectarBD();
 
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        echo '<pre>';
+        var_dump($_POST['titulo']);
+        echo '</pre>';
+
+        $titulo = $_POST['titulo'];
+        $precio = $_POST['precio'];
+    }
 
 
     require '../../includes/funciones.php';
@@ -14,15 +22,15 @@
         <h1>Crear</h1>
         <a href="/admin/index.php" class="boton-verde">Volver</a>
 
-        <form class="formulario">
+        <form class="formulario" method="POST" action="/admin/propiedades/crear.php">
             <fieldset>
                 <legend>Información General</legend>
 
                 <label for="titulo">Título:</label>
-                <input type="text" id="titulo" placeholder="Titulo Propiedad">
+                <input type="text" id="titulo" name="titulo" placeholder="Titulo Propiedad">
                 
                 <label for="precio">Precio:</label>
-                <input type="text" id="precio" placeholder="Precio Propiedad">
+                <input type="number" id="precio" name="precio" placeholder="Precio Propiedad" min="0">
                 
                 <label for="imagen">Imágen:</label>
                 <input type="file" id="imagen" accept="image/jpeg, image/png">
