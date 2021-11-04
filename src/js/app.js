@@ -17,6 +17,8 @@ function darkMode() {
         document.body.classList.remove('dark-mode');
     }
 
+    // Dark Mode con el boton
+
     prefiereDarkMode.addEventListener('change', function() {
         if (prefiereDarkMode) {
             document.body.classList.add('dark-mode');
