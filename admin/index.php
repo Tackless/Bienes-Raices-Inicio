@@ -28,8 +28,6 @@
         <?php endif; ?>
 
         <a href="/admin/propiedades/crear.php" class="boton-verde">Nueva Propiedad</a>
-        <a href="/admin/propiedades/actualizar.php" class="boton-verde">Actualizar Propiedad</a>
-        <a href="/admin/propiedades/borrar.php" class="boton-verde">Borrar Propiedad</a>
 
         <table class="propiedades">
             <thead>
@@ -52,7 +50,7 @@
                         <td> $ <?php echo $propiedad['precio']; ?> </td>
                         <td>
                             <a href="/admin/propiedades/borrar.php" class="boton-rojo-block">Eliminar</a>
-                            <a href="/admin/propiedades/actualizar.php" class="boton-amarillo-block">Actualizar</a>
+                            <a href="/admin/propiedades/actualizar.php?id=<?php echo $propiedad['id']; ?>" class="boton-amarillo-block">Actualizar</a>
                         </td>
                     </tr>
 
