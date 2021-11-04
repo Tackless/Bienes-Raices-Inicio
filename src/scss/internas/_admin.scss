@@ -25,10 +25,11 @@ table.propiedades {
             color: $blanco; 
             padding: 2rem;
         }
+        td {
+            color: $negro;
+        }
     }
-    td {
-        color: $blanco;
-    }
+    
 
     .imagen-tabla {
         width: 13rem;
