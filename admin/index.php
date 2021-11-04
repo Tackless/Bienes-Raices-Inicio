@@ -3,6 +3,17 @@
     // var_dump($_GET);
     // echo '</pre>';
 
+    // Importar la conexión
+    require '../includes/config/database.php';
+    $db = conectarBD();
+
+    // Escribir el query
+    $query = "SELECT * FROM propiedades";
+
+    // Consultar la base de datos
+    $resultadoConsulta = mysqli_query($db, $query);
+
+    // Muestra mensaje condicional
     $resultado = $_GET['resultado'] ?? null;
 
     require '../includes/funciones.php';
@@ -31,17 +42,30 @@
                 </tr>
             </thead>
             
-            <tbody>
-                <td>1</td>
-                <td>Casa en la playa</td>
-                <td> <img src="/imagenes/a2998fc34681f6289c6872f361a0e14f.jpg" class="imagen-tabla" alt=""></td>
-                <td>$1,000,000</td>
-                <td>
-                    <a href="/admin/propiedades/borrar.php" class="boton-rojo-block">Eliminar</a>
-                    <a href="/admin/propiedades/actualizar.php" class="boton-amarillo-block">Actualizar</a>
-                </td>
+            <tbody> <!-- Mostrar los resultados de la Base de Datos -->
+                <?php while ($propiedad = mysqli_fetch_assoc($resultadoConsulta)): ?>
+                    
+                    <tr>
+                        <td> <?php echo $propiedad['id']; ?> </td>
+                        <td> <?php echo $propiedad['titulo']; ?> </td>
+                        <td> <img src="/imagenes/<?php echo $propiedad['imagen']; ?>" class="imagen-tabla" alt=""></td>
+                        <td> $ <?php echo $propiedad['precio']; ?> </td>
+                        <td>
+                            <a href="/admin/propiedades/borrar.php" class="boton-rojo-block">Eliminar</a>
+                            <a href="/admin/propiedades/actualizar.php" class="boton-amarillo-block">Actualizar</a>
+                        </td>
+                    </tr>
+
+                <?php endwhile; ?>
             </tbody>
         </table>
     </main>
 
-<?php incluirTemplate('footer'); ?>
+<?php 
+
+    // Cerrar la conexdión
+    mysqli_close($db);
+
+
+    incluirTemplate('footer'); 
+?>
