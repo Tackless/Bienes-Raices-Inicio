@@ -16,6 +16,15 @@
     require '../../includes/config/database.php';
     $db = conectarBD();
 
+    // Consulta para obtener los valores de propiedades
+    $consultaPropiedades = "SELECT * FROM propiedades WHERE id = ${id}";
+    $resultadoPropiedades = mysqli_query($db, $consultaPropiedades);
+    $propiedad = mysqli_fetch_assoc($resultadoPropiedades);
+
+    echo '<pre>';
+    var_dump($propiedad);
+    echo '</pre>';
+
     // Consulta para obtener los vendedores
     $consulta = "SELECT * FROM vendedores";
     $resultado = mysqli_query($db, $consulta);
@@ -23,14 +32,14 @@
     // Arreglo con mensajes de errores
     $errores = [];
 
-    $titulo = '';
-    $precio = '';
-    $descripcion = '';
-    $habitaciones = '';
-    $wc = '';
-    $estacionamiento = '';
-    $vendedorId = '';
-
+    $titulo = $propiedad['titulo'];
+    $precio = $propiedad['precio'];
+    $descripcion = $propiedad['descripcion'];
+    $habitaciones = $propiedad['habitaciones'];
+    $wc = $propiedad['wc'];
+    $estacionamiento = $propiedad['estacionamiento'];
+    $vendedorId = $propiedad['vendedorId'];
+    $imagenPropiedad = $propiedad['imagen'];
 
 
     // Ejecutar código despúes de que el usuario manda el formulario
@@ -154,6 +163,7 @@
                 
                 <label for="imagen">Imágen:</label>
                 <input type="file" id="imagen" accept="image/jpeg, image/png" name="imagen">
+                <img src="/imagenes/<?php echo $imagenPropiedad; ?> " alt="imagen propiedad" class="imagen-small">
 
                 <label for="descripcion">Descripción</label>
                 <textarea id="descripción" name="descripcion" cols="30" rows="10"><?php echo $descripcion; ?></textarea>
@@ -179,7 +189,7 @@
                 <select name="vendedorId">
                     <option value="0" selected>-- Seleccione --</option>
                     <?php while ($row = mysqli_fetch_assoc($resultado)) : ?>
-                        <option <?php echo $vendedorId == $row['id'] ? 'selected' : ''; ?> 
+                        <option <?php echo ($vendedorId === $row['id']) ? 'selected' : ''; ?> 
                         value="<?php echo $row['id']; ?> ">
                         <?php echo $row['nombre'] . " " . $row['apellido']; ?> </option>
                     <?php endwhile; ?>
@@ -188,6 +198,7 @@
 
             <input type="submit" value="Actualizar Propiedad" class="boton-verde">
         </form>
+        
     </main>
 
 <?php incluirTemplate('footer'); ?>
