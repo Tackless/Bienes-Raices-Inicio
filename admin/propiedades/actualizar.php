@@ -93,28 +93,50 @@
         if ( empty($errores) ) {
 
 
-            // /* SUBIDA DE ARCHIVOS */
+            /* SUBIDA DE ARCHIVOS */
 
-            // // Crear carpeta
-            // $carpetaImagenes = '../../imagenes/';
+            // Crear carpeta
+            $carpetaImagenes = '../../imagenes/';
 
-            // if (!is_dir($carpetaImagenes)) {
-            //     mkdir($carpetaImagenes);
-            // }
+            if (!is_dir($carpetaImagenes)) {
+                mkdir($carpetaImagenes);
+            }
 
-            // // Generar un nombre único
-            // $nombreImagen = md5( uniqid( rand(), true ) ) . ".jpg";
+            $nombreImagen = '';
 
-            // // Subir la imagen
-            // move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
+            echo '<pre>';
+            var_dump($imagen['name']);
+            var_dump($propiedad['imagen']);
+            echo '</pre>';
+
+            // exit;
+
+            
+            if ($imagen['name']) {
+
+                // Eliminar imágen previa (Si es que hay)
+                unlink($carpetaImagenes . $propiedad['imagen']);
+
+                // Generar un nombre único
+                $nombreImagen = md5( uniqid( rand(), true ) ) . ".jpg";
+                
+                // Subir la imagen
+                move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
+
+            } else {
+                echo 'Error';
+                $nombreImagen = $propiedad['imagen'];
+            }
 
             // Insertar en la base de datos
-            $query = "UPDATE propiedades SET titulo = '${titulo}', precio = ${precio}, descripcion = '${descripcion}', habitaciones = ${habitaciones}, wc = ${wc}, estacionamiento = ${estacionamiento}, vendedorId = ${vendedorId} WHERE id = ${id}";
+            $query = "UPDATE propiedades SET titulo = '${titulo}', precio = '${precio}', imagen = '${nombreImagen}', descripcion = '${descripcion}', habitaciones = ${habitaciones}, wc = ${wc}, estacionamiento = ${estacionamiento}, vendedorId = ${vendedorId} WHERE id = ${id}";
 
             $resultado = mysqli_query($db, $query);
             if ($resultado) {
                 // Redireccionar al usuario
                 header('Location: /admin?resultado=2');
+            } else {
+                echo 'Error - Resultado';
             }
         }
     }
@@ -147,7 +169,7 @@
                 
                 <label for="imagen">Imágen:</label>
                 <input type="file" id="imagen" accept="image/jpeg, image/png" name="imagen">
-                <img src="/imagenes/<?php echo $imagenPropiedad; ?> " alt="imagen propiedad" class="imagen-small">
+                <img src="/imagenes/<?php echo $imagenPropiedad; ?> " alt="" class="imagen-small">
 
                 <label for="descripcion">Descripción</label>
                 <textarea id="descripción" name="descripcion" cols="30" rows="10"><?php echo $descripcion; ?></textarea>
