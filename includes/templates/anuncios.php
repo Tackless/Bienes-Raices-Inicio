@@ -14,12 +14,12 @@
 <div class="contenedor-anuncios">
     <?php while ($propiedad = mysqli_fetch_assoc($resultado)): ?>
         <div class="anuncio">
-            <img loading="lazy" src="/imagenes/<?php echo $propiedad['imagen']; ?>" alt="anuncio">
+            <img class="imagen-propiedad" loading="lazy" src="/imagenes/<?php echo $propiedad['imagen']; ?>" alt="anuncio">
 
             <div class="contenido-anuncio">
                 <h3><?php echo $propiedad['titulo']; ?></h3>
                 <p><?php echo $propiedad['descripcion']; ?></p>
-                <p class="precio">$<?php echo $propiedad['precio']; ?></p>
+                <p class="precio">$<?php echo number_format($propiedad['precio']); ?></p>
 
                 <ul class="iconos-caracteristicas">
                     <li>

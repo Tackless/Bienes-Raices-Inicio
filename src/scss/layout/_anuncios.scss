@@ -8,6 +8,16 @@
     background-color: lighten($gris, 5);
     border: 1px solid darken($gris, $amount: 10);
     margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .imagen-propiedad{
+        max-height: auto;
+        @include desktop {
+            max-height: 29rem;
+        } 
+    }
     &:last-of-type {
         margin-bottom: 0;
     }
