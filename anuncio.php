@@ -1,10 +1,26 @@
 <?php 
-    require 'includes/funciones.php';
-    incluirTemplate('header');
+
+    // // Importar la base de datos
+    // require 'includes/config/database.php';
+    // $db = conectarBD();
+
+    // // Consultar la base de datos
+    // $query = "SELECT * FROM propiedades";
+
+    // // Obtener los resultados
+    // $resultado = mysqli_query($db, $query);
+    // $propiedad = mysqli_fetch_assoc($resultado);
+
+    // require 'includes/funciones.php';
+    // incluirTemplate('header');
+
+    // echo '<pre>';
+    // var_dump($propiedad);
+    // echo '</pre>';
 ?>
 
     <main class="contenedor seccion contenido-centrado">
-        <h1>Casa en venta frente al bosque</h1>
+        <!-- <h1><?php echo $resultado['titulo'];  ?></h1> -->
 
         <picture>
             <source srcset="build/img/destacada.webp" type="image/webp">
