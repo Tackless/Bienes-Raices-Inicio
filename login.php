@@ -25,10 +25,19 @@
             $query = "SELECT * FROM usuarios WHERE email = '${email}';";
             $resultado = mysqli_query($db, $query);
 
-            var_dump($resultado);
-
             if ($resultado->num_rows) {
                 // Revisar si el password es correcto
+                $usuario = mysqli_fetch_assoc($resultado);
+
+                $auth = password_verify($password, $usuario['password']);
+
+                var_dump($auth);
+                if ($auth) {
+                    // El usuario está autenticado
+
+                } else {
+                    $errores[] = "El password es incorrecto";
+                }
                 
             } else {
                 $errores[] = "El usuario no existe";
