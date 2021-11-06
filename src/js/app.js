@@ -12,7 +12,7 @@ function darkMode() {
 
 
     if (prefiereDarkMode) {
-        document.body.classList.add('dark-mode');
+        // document.body.classList.add('dark-mode');
     } else {
         document.body.classList.remove('dark-mode');
     }
