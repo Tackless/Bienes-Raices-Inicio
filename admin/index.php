@@ -1,12 +1,7 @@
 <?php 
 
-    session_start();
-
-    // echo '<pre>';
-    // var_dump($_SESSION);
-    // echo '</pre>';
-
-    $auth = $_SESSION['login'];
+    require '../includes/funciones.php';
+    $auth = estaAutenticado();
 
     if (!$auth) {
         header('Location: /');
@@ -49,7 +44,7 @@
         }
     }
 
-    require '../includes/funciones.php';
+    // Incluir el header
     incluirTemplate('header');
 ?>
 
