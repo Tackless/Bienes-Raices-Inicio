@@ -1,7 +1,16 @@
 <?php 
+
+    session_start();
+
     // echo '<pre>';
-    // var_dump($_POST);
+    // var_dump($_SESSION);
     // echo '</pre>';
+
+    $auth = $_SESSION['login'];
+
+    if (!$auth) {
+        header('Location: /');
+    }
 
     // Importar la conexión
     require '../includes/config/database.php';
@@ -76,7 +85,7 @@
                         <td> <?php echo $propiedad['id']; ?> </td>
                         <td> <?php echo $propiedad['titulo']; ?> </td>
                         <td> <img src="/imagenes/<?php echo $propiedad['imagen']; ?>" class="imagen-tabla" alt=""></td>
-                        <td> $ <?php echo $propiedad['precio']; ?> </td>
+                        <td> $ <?php echo number_format($propiedad['precio']); ?> </td>
                         <td>
                             <form method="POST" class="w-100" action="">
 
