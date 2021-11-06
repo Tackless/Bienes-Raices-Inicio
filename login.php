@@ -1,4 +1,32 @@
 <?php 
+
+    require 'includes/config/database.php';
+    $db = conectarBD();
+    
+    $errores = [];
+
+    // Autenticar el Usuario
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        $email = mysqli_real_escape_string( $db, filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) );
+        $password = mysqli_real_escape_string($db, $_POST['password'] );
+
+        if (!$email) {
+            $errores[] = "El email es obligatorio o no es válido";
+        }
+
+        if (!$password) {
+            $errores[] = "El password es obligatorio";
+        }
+
+        if (empty($errores)) {
+            # code...
+        }
+
+    }
+
+
+    // Incluye el Header
     require 'includes/funciones.php';
     incluirTemplate('header');
 ?>
@@ -6,19 +34,25 @@
     <main class="contenedor seccion  contenido-centrado">
         <h1>Iniciar Sesión</h1>
 
-        <form class="formulario">
+        <?php foreach ($errores as $error): ?>
+            <div class="alerta error">
+                <?php echo $error; ?>
+            </div>
+        <?php endforeach; ?>
+
+        <form method="POST" class="formulario">
             <fieldset>
                 <legend>Email y Password</legend>
                 
                 <label for="email">E-mail</label>
-                <input type="email" placeholder="Tu E-mail" id="email">
+                <input name="email" type="email" placeholder="Tu E-mail" id="email" required>
                 
                 <label for="password">Password</label>
-                <input type="password" placeholder="Tu Password" id="password">
+                <input name="password" type="password" placeholder="Tu Password" id="password" required>
 
             </fieldset>
+            <input type="submit" value="Iniciar Sesión" class="boton-verde">
         </form>
-        <input type="submit" value="Iniciar Sesión" class="boton-verde">
     </main>
 
 <?php incluirTemplate('footer'); ?>
