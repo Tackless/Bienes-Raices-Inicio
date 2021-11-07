@@ -4,9 +4,13 @@ require '../includes/app.php';
 estaAutenticado();
 
 use App\Propiedad;
+use App\Vendedor;
 
 // Implementar un método para obtener todas las propiedades
 $propiedades = Propiedad::all();
+$vendedor = Vendedor::all();
+
+debuguear($vendedor);
 
 // Muestra mensaje condicional
 $resultado = $_GET['resultado'] ?? null;
