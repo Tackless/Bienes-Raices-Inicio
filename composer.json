@@ -1,0 +1,17 @@
+{
+    "name": "oswal/bienesraices",
+    "description": "Creando un proyecto con POO",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Donovan Eliosa",
+            "email": "oswaldo.d.b.e@hotmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\" : "./classes"
+        }
+    }
+}
