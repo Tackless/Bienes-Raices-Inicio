@@ -10,10 +10,16 @@ function incluirTemplate( string $nombre, bool $inicio = false, int $limite = 99
 function estaAutenticado() : bool {
     session_start();
 
-    $auth = $_SESSION['login'];
-    if ($auth) {
-        return true;
+    if (!$_SESSION['login']) {
+        header('location: /');
     }
 
     return false;
+}
+
+function debuguear($variable) {
+    echo "<pre>";
+    var_dump($variable);
+    echo "</pre>";
+    exit;
 }
