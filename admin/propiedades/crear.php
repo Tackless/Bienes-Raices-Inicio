@@ -3,13 +3,14 @@
 require '../../includes/app.php';
 
 use App\Propiedad;
-use Intervention\Image\ImageManagerStatic as Image;
+use Intervention\Image\ImageManagerStatic as Image; // incluye la libreria Intervention\image
 
-$auth = estaAutenticado();
+estaAutenticado();
 
 // Base de datos
 $db = conectarBD();
 
+// Crear nueva instancia vacía
 $propiedad = new Propiedad;
 
 // Consulta para obtener los vendedores
@@ -23,16 +24,16 @@ $errores = Propiedad::getErrores();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Crea una nueva instancia
-    $propiedad = new Propiedad($_POST);
+    $propiedad = new Propiedad($_POST['propiedad']);
 
     /* SUBIDA DE ARCHIVOS */
     // Generar un nombre único
     $nombreImagen = md5( uniqid( rand(), true ) ) . ".jpg";
 
     // Setear la imagen
-    if ($_FILES['imagen']['tmp_name']) {
+    if ($_FILES['propiedad']['tmp_name']['imagen']) {
         // Realiza un resize a la imagen con intervention
-        $image = Image::make($_FILES['imagen']['tmp_name'])->fit(800,600);
+        $image = Image::make($_FILES['propiedad']['tmp_name']['imagen'])->fit(800,600);
         $propiedad->setImagen($nombreImagen);
     }
     
@@ -66,7 +67,6 @@ incluirTemplate('header'); ?>
 <main class="contenedor seccion">
     <h1>Crear</h1>
     <a href="/admin/index.php" class="boton-verde">Volver</a>
-
     
     <?php foreach ($errores as $error): ?>
         <div class="alerta error">
