@@ -46,23 +46,12 @@ require '../../includes/app.php';
             $propiedad->setImagen($nombreImagen);
         }
 
-        debuguear($propiedad);
-
         // Revisar que el arreglo de errores esté vacío
         if ( empty($errores) ) {
+            // Almacenar la imagen
+            $image->save(CARPETA_IMAGENES . $nombreImagen);
 
-
-            exit;
-            // Insertar en la base de datos
-            $query = "UPDATE propiedades SET titulo = '${titulo}', precio = '${precio}', imagen = '${nombreImagen}', descripcion = '${descripcion}', habitaciones = ${habitaciones}, wc = ${wc}, estacionamiento = ${estacionamiento}, vendedorId = ${vendedorId} WHERE id = ${id}";
-
-            $resultado = mysqli_query($db, $query);
-            if ($resultado) {
-                // Redireccionar al usuario
-                header('Location: /admin?resultado=2');
-            } else {
-                echo 'Error - Resultado';
-            }
+            $resultado = $propiedad->guardar();
         }
     }
 
