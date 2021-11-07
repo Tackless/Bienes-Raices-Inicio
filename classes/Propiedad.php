@@ -8,6 +8,10 @@ class Propiedad {
     protected static $db;
     protected static $columnasDB = ['id','titulo', 'precio', 'imagen', 'descripcion', 'habitaciones', 'wc', 'estacionamiento', 'creado', 'vendedorId'];
 
+    // Errores
+    protected static $errores = [];
+
+    // Atributos
     public $id;
     public $titulo;
     public $precio;
@@ -52,7 +56,6 @@ class Propiedad {
 
         $resultado = self::$db->query($query);
 
-        debuguear($resultado);
     }
 
     // Identificar y unir los atributos de la BD
@@ -73,6 +76,56 @@ class Propiedad {
             $sanitizado[$key] = self::$db->escape_string($value);
         }
         return $sanitizado;
+    }
+
+    // Validación
+    public static function getErrores() {
+        return self::$errores;
+    }
+
+    public function validar() {
+        if (!$this->titulo) {
+            self::$errores[] = "Debes añadir un titulo";
+        }
+    
+        if (!$this->precio) {
+            self::$errores[] = "El precio es obligatorio";
+        }
+        
+        if ( strlen($this->descripcion) < 30 ) {
+            self::$errores[] = "La descripcion es obligatoria y debe tener al menos 30 caracteres";
+        }
+    
+        if ( !$this->habitaciones) {
+            self::$errores[] = "El número de habitaciones es obligatorio";
+        }
+    
+        if (!$this->wc) {
+            self::$errores[] = "El número de baños es obligatorio";
+        }
+    
+        if (!$this->estacionamiento) {
+            self::$errores[] = "El número de estacionamientos es obligatorio";
+        }
+    
+        if (!$this->vendedorId) {
+            self::$errores[] = "Elije un vendedor";
+        }
+
+        return self::$errores;
+    
+        // if (!$this->imagen['name'] || $this->imagen['error']) {
+        //     self::$errores[] = 'La imagén es obligatoria';
+        // }
+    
+        // // Validar por tamaño (100 Kb máximo)
+        // $medida = 1000 * 1000;
+    
+        // if ($this->imagen['size'] > $medida) {
+        //     self::$errores[] = 'La imagén es muy grande';
+        // }
+
+        
     }
 
 }
