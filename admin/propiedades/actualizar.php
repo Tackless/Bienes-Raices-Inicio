@@ -55,7 +55,6 @@ require '../../includes/app.php';
         }
     }
 
-
     // Incluir el header
     incluirTemplate('header');
 ?>

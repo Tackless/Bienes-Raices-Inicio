@@ -42,6 +42,7 @@ class Propiedad {
         $this->vendedorId = $args['vendedorId'] ?? 1;
     }
 
+    // Guardar datos del registro
     public function guardar() {
         if (isset($this->id)) {
             // Actualizar registro
@@ -52,6 +53,7 @@ class Propiedad {
         }
     }
 
+    // Crear registro
     public function crear() {
 
         // Sanitizar los datos
@@ -69,6 +71,7 @@ class Propiedad {
         return $resultado;
     }
 
+    // Actualizar registro
     public function actualizar() {
         // Sanitizar los datos
         $atributos = $this->sanitizarAtributos();
@@ -88,9 +91,20 @@ class Propiedad {
         if ($resultado) {
             // Redireccionar al usuario
             header('Location: /admin?resultado=2');
-        }
+        }        
+    }
 
+    // Eliminar registro
+    public function eliminar() {
+        // Elimina la propiedad
+        $query = "DELETE FROM propiedades WHERE id = " . self::$db->escape_string($this->id) . " LIMIT 1;";
         
+        $resultado = self::$db->query($query);
+
+        if ($resultado) {
+            $this->borrarImagen();
+            header('location: /admin?resultado=3');
+        }
     }
 
     // Identificar y unir los atributos de la BD
@@ -118,16 +132,21 @@ class Propiedad {
         
         // Elimina la imagen previa
         if (isset($this->id)) {
-            // Comprobar si existe el archivo
-            $existeArchivo = file_exists(CARPETA_IMAGENES . $this->imagen);
-            if ($existeArchivo) {
-                unlink(CARPETA_IMAGENES . $this->imagen);
-            }
+            $this->borrarImagen();
         }
 
         // Asignar al atributo de imagen el nombre de la imagen
         if ($imagen) {
             $this->imagen = $imagen;
+        }
+    }
+
+    // Eliminar archivos
+    public function borrarImagen() {
+        // Comprobar si existe el archivo
+        $existeArchivo = file_exists(CARPETA_IMAGENES . $this->imagen);
+        if ($existeArchivo) {
+            unlink(CARPETA_IMAGENES . $this->imagen);
         }
     }
 

@@ -4,6 +4,7 @@ require '../includes/app.php';
 estaAutenticado();
 
 use App\Propiedad;
+
 // Implementar un método para obtener todas las propiedades
 $propiedades = Propiedad::all();
 
@@ -16,20 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($id) {
 
-        // Eliminar el archivo
-        $query = "SELECT imagen FROM propiedades WHERE id = ${id}";
-        $resultado = mysqli_query($db, $query);
-        $propiedad = mysqli_fetch_assoc($resultado);
+        $propiedad = Propiedad::find($id);
 
-        unlink('../imagenes/' . $propiedad['imagen']);
-
-        // Elimina la propiedad
-        $query = "DELETE FROM propiedades WHERE id = ${id}";
-        $resultado = mysqli_query($db,$query);
-
-        if ($resultado) {
-            header('location: /admin?resultado=3');
-        }
+        $propiedad->eliminar();     
     }
 }
 
