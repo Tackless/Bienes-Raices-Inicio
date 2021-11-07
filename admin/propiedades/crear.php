@@ -27,6 +27,12 @@ $vendedorId = '';
 // Ejecutar código despúes de que el usuario manda el formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    $propiedad = new Propiedad($_POST);
+
+    $propiedad->guardar();
+
+    debuguear($propiedad);
+
     // mysqli_real_escape_string Sanitiza el elemento
     $titulo = mysqli_real_escape_string( $db, $_POST['titulo']);
     $precio = mysqli_real_escape_string( $db, $_POST['precio']);
