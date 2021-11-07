@@ -1,15 +1,9 @@
-<?php 
+<?php
 
-    require '../../includes/funciones.php';
-    $auth = estaAutenticado();
+use App\Propiedad;
 
-    if (!$auth) {
-        header('Location: /');
-    }
-
-    // echo '<pre>';
-    // var_dump($_GET);
-    // echo '</pre>';
+require '../../includes/app.php';
+    estaAutenticado();
 
     // Validar que sea un ID válido
     $id = $_GET['id'];
@@ -19,31 +13,14 @@
         header('Location: /admin'); // Lleva a la página principal
     }
 
-    // Base de datos
-    require '../../includes/config/database.php';
-    $db = conectarBD();
-
     // Consulta para obtener los valores de propiedades
-    $consultaPropiedades = "SELECT * FROM propiedades WHERE id = ${id}";
-    $resultadoPropiedades = mysqli_query($db, $consultaPropiedades);
-    $propiedad = mysqli_fetch_assoc($resultadoPropiedades);
-
+    $propiedad = Propiedad::find($id);
     // Consulta para obtener los vendedores
     $consulta = "SELECT * FROM vendedores";
     $resultado = mysqli_query($db, $consulta);
 
     // Arreglo con mensajes de errores
     $errores = [];
-
-    $titulo = $propiedad['titulo'];
-    $precio = $propiedad['precio'];
-    $descripcion = $propiedad['descripcion'];
-    $habitaciones = $propiedad['habitaciones'];
-    $wc = $propiedad['wc'];
-    $estacionamiento = $propiedad['estacionamiento'];
-    $vendedorId = $propiedad['vendedorId'];
-    $imagenPropiedad = $propiedad['imagen'];
-
 
     // Ejecutar código despúes de que el usuario manda el formulario
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -165,49 +142,7 @@
         <?php endforeach; ?>
 
         <form class="formulario" method="POST" enctype="multipart/form-data">
-            <fieldset>
-                <legend>Información General</legend>
-
-                <label for="titulo">Título:</label>
-                <input type="text" id="titulo" name="titulo" value="<?php echo $titulo; ?>" placeholder="Titulo Propiedad">
-                
-                <label for="precio">Precio:</label>
-                <input type="number" id="precio" name="precio" value="<?php echo $precio; ?>" placeholder="Precio Propiedad" min="0">
-                
-                <label for="imagen">Imágen:</label>
-                <input type="file" id="imagen" accept="image/jpeg, image/png" name="imagen">
-                <img src="/imagenes/<?php echo $imagenPropiedad; ?> " alt="" class="imagen-small">
-
-                <label for="descripcion">Descripción</label>
-                <textarea id="descripción" name="descripcion" cols="30" rows="10"><?php echo $descripcion; ?></textarea>
-
-            </fieldset>
-
-            <fieldset>
-                <legend>Información Propiedad</legend>
-
-                <label for="habitaciones">Habitaciones:</label>
-                <input type="number" id="habitaciones" name="habitaciones" value="<?php echo $habitaciones; ?>" placeholder="Ej: 3" min="1" max="9">
-                
-                <label for="wc">Baños:</label>
-                <input type="number" id="wc" name="wc" value="<?php echo $wc; ?>" placeholder="Ej: 3" min="1" max="9">
-                
-                <label for="estacionamiento">Estacionamiento:</label>
-                <input type="number" id="estacionamiento" name="estacionamiento" value="<?php echo $estacionamiento; ?>" placeholder="Ej: 3" min="1" max="9">
-            </fieldset>
-
-            <fieldset>
-                <legend>Vendedor</legend>
-
-                <select name="vendedorId">
-                    <option value="0" selected>-- Seleccione --</option>
-                    <?php while ($row = mysqli_fetch_assoc($resultado)) : ?>
-                        <option <?php echo ($vendedorId === $row['id']) ? 'selected' : ''; ?> 
-                        value="<?php echo $row['id']; ?> ">
-                        <?php echo $row['nombre'] . " " . $row['apellido']; ?> </option>
-                    <?php endwhile; ?>
-                </select>
-            </fieldset>
+            <?php include('../../includes/templates/formulario_propiedades.php'); ?>
 
             <input type="submit" value="Actualizar Propiedad" class="boton-verde">
         </form>
