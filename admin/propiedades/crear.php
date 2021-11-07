@@ -1,133 +1,136 @@
 <?php 
 
-    require '../../includes/funciones.php';
-    $auth = estaAutenticado();
+require '../../includes/app.php';
 
-    if (!$auth) {
-        header('Location: /');
+use App\Propiedad;
+$propiedad = new Propiedad;
+
+echo "<pre>";
+var_dump($propiedad);
+echo "</pre>";
+
+exit;
+
+$auth = estaAutenticado();
+
+if (!$auth) {
+    header('Location: /');
+}
+
+// Base de datos
+$db = conectarBD();
+
+// Consulta para obtener los vendedores
+$consulta = "SELECT * FROM vendedores";
+$resultado = mysqli_query($db, $consulta);
+
+// Arreglo con mensajes de errores
+$errores = [];
+
+$titulo = '';
+$precio = '';
+$descripcion = '';
+$habitaciones = '';
+$wc = '';
+$estacionamiento = '';
+$vendedorId = '';
+
+// Ejecutar código despúes de que el usuario manda el formulario
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // mysqli_real_escape_string Sanitiza el elemento
+    $titulo = mysqli_real_escape_string( $db, $_POST['titulo']);
+    $precio = mysqli_real_escape_string( $db, $_POST['precio']);
+    $descripcion = mysqli_real_escape_string( $db, $_POST['descripcion']);
+    $habitaciones = mysqli_real_escape_string( $db, $_POST['habitaciones']);
+    $wc = mysqli_real_escape_string( $db, $_POST['wc']);
+    $estacionamiento = mysqli_real_escape_string( $db, $_POST['estacionamiento']);
+    $vendedorId = mysqli_real_escape_string( $db, $_POST['vendedorId']);
+    $creado = date('Y/m/d');
+
+    // Asignar files hacia una variable
+    $imagen = $_FILES['imagen'];
+
+    if (!$titulo) {
+        $errores[] = "Debes añadir un titulo";
     }
 
-    // Base de datos
-    require '../../includes/config/database.php';
-    $db = conectarBD();
-
-    // Consulta para obtener los vendedores
-    $consulta = "SELECT * FROM vendedores";
-    $resultado = mysqli_query($db, $consulta);
-
-    // Arreglo con mensajes de errores
-    $errores = [];
-
-    $titulo = '';
-    $precio = '';
-    $descripcion = '';
-    $habitaciones = '';
-    $wc = '';
-    $estacionamiento = '';
-    $vendedorId = '';
-
-
-
-    // Ejecutar código despúes de que el usuario manda el formulario
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-        // echo '<pre>';
-        // var_dump($_FILES);
-        // echo '</pre>';
-
-        // mysqli_real_escape_string Sanitiza el elemento
-        $titulo = mysqli_real_escape_string( $db, $_POST['titulo']);
-        $precio = mysqli_real_escape_string( $db, $_POST['precio']);
-        $descripcion = mysqli_real_escape_string( $db, $_POST['descripcion']);
-        $habitaciones = mysqli_real_escape_string( $db, $_POST['habitaciones']);
-        $wc = mysqli_real_escape_string( $db, $_POST['wc']);
-        $estacionamiento = mysqli_real_escape_string( $db, $_POST['estacionamiento']);
-        $vendedorId = mysqli_real_escape_string( $db, $_POST['vendedorId']);
-        $creado = date('Y/m/d');
-
-        // Asignar files hacia una variable
-        $imagen = $_FILES['imagen'];
-
-        if (!$titulo) {
-            $errores[] = "Debes añadir un titulo";
-        }
-
-        if (!$precio) {
-            $errores[] = "El precio es obligatorio";
-        }
-        
-        if ( strlen($descripcion) < 30 ) {
-            $errores[] = "La descripcion es obligatoria y debe tener al menos 30 caracteres";
-        }
-
-        if ( !$habitaciones) {
-            $errores[] = "El número de habitaciones es obligatorio";
-        }
-
-        if (!$wc) {
-            $errores[] = "El número de baños es obligatorio";
-        }
-
-        if (!$estacionamiento) {
-            $errores[] = "El número de estacionamientos es obligatorio";
-        }
-
-        if (!$vendedorId) {
-            $errores[] = "Elije un vendedor";
-        }
-
-        if (!$imagen['name'] || $imagen['error']) {
-            $errores[] = 'La imagén es obligatoria';
-        }
-
-        // Validar por tamaño (100 Kb máximo)
-        $medida = 1000 * 1000;
-
-        if ($imagen['size'] > $medida) {
-            $errores[] = 'La imagén es muy grande';
-        }
-
-        // echo '<pre>';
-        // var_dump($errores);
-        // echo '</pre>';
-
-        
-        // Revisar que el arreglo de errores esté vacío
-        if ( empty($errores) ) {
-
-
-            /* SUBIDA DE ARCHIVOS */
-
-            // Crear carpeta
-            $carpetaImagenes = '../../imagenes/';
-
-            if (!is_dir($carpetaImagenes)) {
-                mkdir($carpetaImagenes);
-            }
-
-            // Generar un nombre único
-            $nombreImagen = md5( uniqid( rand(), true ) ) . ".jpg";
-
-            // Subir la imagen
-            move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
-
-            // Insertar en la base de datos
-            $query = " INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) VALUES ( '$titulo', '$precio', '$nombreImagen', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedorId' );";
-
-            // echo $query;
-
-            $resultado = mysqli_query($db, $query);
-
-            if ($resultado) {
-                // Redireccionar al usuario
-                header('Location: /admin?resultado=1');
-            }
-        }
+    if (!$precio) {
+        $errores[] = "El precio es obligatorio";
+    }
+    
+    if ( strlen($descripcion) < 30 ) {
+        $errores[] = "La descripcion es obligatoria y debe tener al menos 30 caracteres";
     }
 
+    if ( !$habitaciones) {
+        $errores[] = "El número de habitaciones es obligatorio";
+    }
 
-    // Incluir el header
-    incluirTemplate('header');
+    if (!$wc) {
+        $errores[] = "El número de baños es obligatorio";
+    }
+
+    if (!$estacionamiento) {
+        $errores[] = "El número de estacionamientos es obligatorio";
+    }
+
+    if (!$vendedorId) {
+        $errores[] = "Elije un vendedor";
+    }
+
+    if (!$imagen['name'] || $imagen['error']) {
+        $errores[] = 'La imagén es obligatoria';
+    }
+
+    // Validar por tamaño (100 Kb máximo)
+    $medida = 1000 * 1000;
+
+    if ($imagen['size'] > $medida) {
+        $errores[] = 'La imagén es muy grande';
+    }
+
+    // echo '<pre>';
+    // var_dump($errores);
+    // echo '</pre>';
+
+    
+    // Revisar que el arreglo de errores esté vacío
+    if ( empty($errores) ) {
+
+
+        /* SUBIDA DE ARCHIVOS */
+
+        // Crear carpeta
+        $carpetaImagenes = '../../imagenes/';
+
+        if (!is_dir($carpetaImagenes)) {
+            mkdir($carpetaImagenes);
+        }
+
+        // Generar un nombre único
+        $nombreImagen = md5( uniqid( rand(), true ) ) . ".jpg";
+
+        // Subir la imagen
+        move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
+
+        // Insertar en la base de datos
+        $query = " INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) VALUES ( '$titulo', '$precio', '$nombreImagen', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedorId' );";
+
+        // echo $query;
+
+        $resultado = mysqli_query($db, $query);
+
+        if ($resultado) {
+            // Redireccionar al usuario
+            header('Location: /admin?resultado=1');
+        }
+    }
+}
+
+
+// Incluir el header
+incluirTemplate('header');
 ?>
 
     <main class="contenedor seccion">
