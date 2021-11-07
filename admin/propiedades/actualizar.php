@@ -20,7 +20,7 @@ require '../../includes/app.php';
     $resultado = mysqli_query($db, $consulta);
 
     // Arreglo con mensajes de errores
-    $errores = [];
+    $errores = Propiedad::getErrores();
 
     // Ejecutar código despúes de que el usuario manda el formulario
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -30,45 +30,8 @@ require '../../includes/app.php';
 
         // Sincroniza los atributos del formulario 
         $propiedad->sincronizar($args);
-        debuguear($propiedad);
-
-        // Asignar files hacia una variable
-        $imagen = $_FILES['imagen'];
-
-        if (!$titulo) {
-            $errores[] = "Debes añadir un titulo";
-        }
-
-        if (!$precio) {
-            $errores[] = "El precio es obligatorio";
-        }
         
-        if ( strlen($descripcion) < 30 ) {
-            $errores[] = "La descripcion es obligatoria y debe tener al menos 30 caracteres";
-        }
-
-        if ( !$habitaciones) {
-            $errores[] = "El número de habitaciones es obligatorio";
-        }
-
-        if (!$wc) {
-            $errores[] = "El número de baños es obligatorio";
-        }
-
-        if (!$estacionamiento) {
-            $errores[] = "El número de estacionamientos es obligatorio";
-        }
-
-        if (!$vendedorId) {
-            $errores[] = "Elije un vendedor";
-        }
-
-        // Validar por tamaño (100 Kb máximo)
-        $medida = 1000 * 1000;
-
-        if ($imagen['size'] > $medida) {
-            $errores[] = 'La imagén es muy grande';
-        }
+        $errores = $propiedad->validar();
 
         // Revisar que el arreglo de errores esté vacío
         if ( empty($errores) ) {
@@ -84,14 +47,6 @@ require '../../includes/app.php';
             }
 
             $nombreImagen = '';
-
-            echo '<pre>';
-            var_dump($imagen['name']);
-            var_dump($propiedad['imagen']);
-            echo '</pre>';
-
-            // exit;
-
             
             if ($imagen['name']) {
 
