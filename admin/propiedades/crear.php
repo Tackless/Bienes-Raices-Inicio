@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 incluirTemplate('header'); ?>
 
 <main class="contenedor seccion">
-    <h1>Crear</h1>
+    <h1>Registrar Propiedades </h1>
     <a href="/admin/index.php" class="boton-verde">Volver</a>
     
     <?php foreach ($errores as $error): ?>
@@ -66,7 +66,7 @@ incluirTemplate('header'); ?>
         </div>    
     <?php endforeach; ?>
 
-    <form class="formulario" method="POST" action="/admin/propiedades/crear.php" enctype="multipart/form-data">
+    <form class="formulario" method="POST" action="/admin/vendedores/crear.php" enctype="multipart/form-data">
         <?php include('../../includes/templates/formulario_propiedades.php'); ?>
 
         <input type="submit" value="Crear Propiedad" class="boton-verde">
