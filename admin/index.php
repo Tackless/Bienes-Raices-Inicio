@@ -10,8 +10,6 @@ use App\Vendedor;
 $propiedades = Propiedad::all();
 $vendedor = Vendedor::all();
 
-debuguear($vendedor);
-
 // Muestra mensaje condicional
 $resultado = $_GET['resultado'] ?? null;
 
