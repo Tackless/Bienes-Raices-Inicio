@@ -30,7 +30,7 @@
     <section class="seccion contenedor">
         <h2>Casas y Departamentos en venta</h2>
 
-        <?php incluirTemplate('anuncios', false, 3);?>
+        <?php incluirTemplate('anuncios');?>
 
         <div class="alinear-derecha">
             <a href="anuncios.php" class="boton-verde">Ver Todas</a>
