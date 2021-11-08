@@ -10,9 +10,6 @@ use App\Vendedor;
 $propiedades = Propiedad::all();
 $vendedor = Vendedor::all();
 
-debuguear($propiedades);
-
-
 // Muestra mensaje condicional
 $resultado = $_GET['resultado'] ?? null;
 
@@ -59,7 +56,6 @@ incluirTemplate('header');
         
         <tbody> <!-- Mostrar los resultados de la Base de Datos -->
             <?php foreach( $propiedades as $propiedad ): ?>
-                
                 <tr>
                     <td> <?php echo $propiedad->id; ?> </td>
                     <td> <?php echo $propiedad->titulo; ?> </td>
@@ -75,7 +71,6 @@ incluirTemplate('header');
                         <a href="/admin/propiedades/actualizar.php?id=<?php echo $propiedad->id; ?>" class="boton-amarillo-block">Actualizar</a>
                     </td>
                 </tr>
-
             <?php endforeach; ?>
         </tbody>
     </table>
