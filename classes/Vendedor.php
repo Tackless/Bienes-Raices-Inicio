@@ -22,6 +22,7 @@ class Vendedor extends ActiveRecord {
     }
 
     public function validar() {
+
         if (!$this->nombre) {
             self::$errores[] = "El Nombre es Obligatorio";
         }
@@ -39,5 +40,6 @@ class Vendedor extends ActiveRecord {
         }
         
         return self::$errores;
+        debuguear('Validando');
     }
 }
