@@ -1,12 +1,12 @@
 {
-  "name": "salon-php-sass",
+  "name": "bienes-raices",
   "version": "1.0.0",
-  "description": "",
+  "description": "Training, how to creat a webpage like a profesional\r PHP, MySQL, Composer, Gulp, HTML, CSS, SASS, Javascript",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Donovan Eliosa",
   "license": "ISC",
   "devDependencies": {
     "cssnano": "^4.1.10",
@@ -24,5 +24,17 @@
     "gulp-terser-js": "^5.2.2",
     "gulp-webp": "^4.0.1",
     "terser": "^5.3.8"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tackless/Bienes-Raices-Inicio--Legacy.git"
+  },
+  "keywords": [
+    "HTML",
+    "SASS"
+  ],
+  "bugs": {
+    "url": "https://github.com/Tackless/Bienes-Raices-Inicio--Legacy/issues"
+  },
+  "homepage": "https://github.com/Tackless/Bienes-Raices-Inicio--Legacy#readme"
 }
